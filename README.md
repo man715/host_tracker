@@ -11,7 +11,7 @@ Use it; abuse; do whatever you want with it.
 Simple, do not have any. I am not going to regularly update this thing. I am just working on it because I have a wild hair up my butt to have this functionallity in Scerpico.
 
 ## Installation
-This will tell you all you need maybe: https://github.com/SerpicoProject/Serpico/wiki/Plug-ins
+This will tell you all you need... maybe: https://github.com/SerpicoProject/Serpico/wiki/Plug-ins
 
 Incase that did not give you enough info, here is how I would do it if I were you, assuming you are in the Scerpico root.
 `git clone man715/host_tracker.git plugins`
