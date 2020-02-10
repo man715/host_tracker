@@ -101,13 +101,3 @@
   %h2.h5 No hosts Available
   %a.btn.btn-primary{ :href => "/host_tracker/#{@report.id}/hosts/new" }
     Add Host
-
-:javascript
-  function confirmUploaded(evt) {
-    alert('Nice work! host uploaded to the local database.');
-  }
-
-  var inverseElements = $('a.btn-dark');
-  for (var index = 0, length = inverseElements.length; index < length; index++) {
-    inverseElements[index].addEventListener('click', confirmUploaded, false);
-  }
