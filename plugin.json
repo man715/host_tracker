@@ -1,7 +1,7 @@
 {
   "name": "host_tracker",
   "description": "This allows you to add your own hosts. Kind of based off off SEC560's host tracker.",
-  "link":"/host_tracker/:id/hosts",
+  "link":"/host_tracker/hosts",
   "enabled": true,
   "report_view": true,
   "admin_view": true

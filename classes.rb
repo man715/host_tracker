@@ -5,7 +5,7 @@ require 'dm-migrations'
 # Initialize the Master DB
 DataMapper.setup(:default, "sqlite://#{Dir.pwd}/db/master.db")
 
-class Hosts
+class ManagedHosts
   include DataMapper::Resource
 
   property :id, Serial
@@ -20,3 +20,7 @@ class Hosts
   property :discovered, String
   property :other_notes, String, length: 400
 end
+
+DataMapper.finalize
+
+DataMapper.auto_upgrade!

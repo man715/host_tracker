@@ -22,4 +22,4 @@ This plugin uses the master.db that is set up when you setup Serpico. If you do 
 I did this because I did not want to manage more than one database. (Yeah, I know it is a single file. What can I say, I'm lazy.)
 
 ## Attribution
-Look let's be honest, I'm not a programmer so this code pretty much is ripped from other parts of Serpico. Very little, if any, is really mine. So thanks to you peeps at Serpico.
+Look let's be honest, I'm not a programmer so this code pretty much is ripped from other parts of Serpico. Only the crappy parts are really mine. So thanks to you peeps at Serpico.

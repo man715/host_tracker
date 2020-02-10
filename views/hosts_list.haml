@@ -1,5 +1,5 @@
 .d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pt-3.pb-2.mb-3.border-bottom
-  %h1.h2 Current hosts
+  %h1.h2 Current Hosts
 
 - if @newhost
   %h2.h4 host(s) Added! You rock.
@@ -32,7 +32,7 @@
             %th{ :style => "width: 20%" }
               Select All hosts &nbsp;&nbsp;&nbsp;&nbsp;
               %input.checkbox#checkall{ :type => "checkbox" }
-            %a.btn.btn-danger#deletemultiple{ :href => "/master/hosts/delete/" }
+            %a.btn.btn-danger#deletemultiple{ :href => "/master/hosts/delete" }
               Delete selected
             %br
           %style#search_style
@@ -67,50 +67,40 @@
                                 %td.searchable{ :style => "text-align:center; width: 20%", :"data-index" => "#{host.ip.downcase}" }
                                   #{host.port}
                                 %td.searchable{ :style => "text-align:center; width: 20%", :"data-index" => "#{host.ip.downcase}" }
-                                  %a.btn.btn-sm.btn-warning{ :href => "/master/hosts/#{host.id}/edit" }
+                                  %a.btn.btn-sm.btn-warning{ :href => "/host_tracker/hosts/#{host.id}/edit" }
                                     %i.fas.fa-pencil-alt{ :ip => "Edit" }
                                   %a.btn.btn-sm.btn-info{ :href => "/master/hosts/#{host.id}/preview" }
                                     %i.far.fa-play-circle{ :ip => "Preview" }
                                   %a.btn.btn-sm.btn-danger{ :href => "/master/hosts/delete/#{host.id}" }
                                     %i.far.fa-trash-alt{ :ip => "Delete" }
         - else
-          :ruby
-          - if @chart
-            %div{ :id =>"chart" }
-            %br
-            //cred to http://jsfiddle.net/ragingsquirrel3/qkHK6 for this
-            // not sure what this script is doing
-            :plain
-              <script src= '/js/d3.js'></script>
-            %br
-            %br
-            %a#deletemultiple.btn.btn-danger{ :href => "/report/#{@report.id}/hosts/remove/" }
-              Delete selected
-            %br
-            %br
-          - @hosts.each do |host|
-            %tr{ :class => "#{@class}" }
-              %td
-                %input.checkbox{ :type => "checkbox", :name => "#{host.id}" }
-              %td{ :style => "width:60%; max-width: 0px" }
-                #{host.ip}
-              %td{ :style => "text-align:center" }
-                #{host.hostname}
-              %td{ :style => "text-align:center" }
-                #{host.os}
-              %td{ :style => "text-align:center" }
-                #{host.port}
-              %td
-                %a.btn.btn-sm.btn-warning{ :href => "/report/#{@report.id}/hosts/#{host.id}/edit" }
-                  %i.fas.fa-pencil-alt{ :ip => "Edit" }
-                %a.btn.btn-sm.btn-info{ :href => "/report/#{@report.id}/hosts/#{host.id}/preview" }
-                  %i.far.fa-play-circle{ :ip => "Preview" }
-                %a.btn.btn-sm.btn-dark{ :href => "/report/#{@report.id}/hosts/#{host.id}/upload" }
-                  %i.fas.fa-arrow-up{ :ip => "Add to the hosts database" }
-                %a.btn.btn-sm.btn-danger{ :href => "/report/#{@report.id}/hosts/remove/#{host.id}" }
-                  %i.far.fa-trash-alt{ :ip => "Delete" }
+          %a#deletemultiple.btn.btn-danger{ :href => "/host_tracker/#{@report.id}/hosts/delete/" }
+            Delete selected
+          %br
+          %br
+        - @hosts.each do |host|
+          %tr{ :class => "#{@class}" }
+            %td
+              %input.checkbox{ :type => "checkbox", :name => "#{host.id}" }
+            %td{ :style => "width:60%; max-width: 0px" }
+              #{host.ip}
+            %td{ :style => "text-align:center" }
+              #{host.hostname}
+            %td{ :style => "text-align:center" }
+              #{host.os}
+            %td{ :style => "text-align:center" }
+              #{host.port}
+            %td{ :style => "text-align:center"}
+              %a.btn.btn-sm.btn-warning{ :href => "/host_tracker#{@report.id}/hosts/edit/#{host.id}" }
+                %i.fas.fa-pencil-alt{ :ip => "Edit" }
+              %a.btn.btn-sm.btn-danger{ :href => "/host_tracker/#{@report.id}/hosts/delete/#{host.id}" }
+                %i.far.fa-trash-alt{ :ip => "Delete" }
+  %a.btn.btn-primary{ :href => "/host_tracker/#{@report.id}/hosts/new" }
+    Add Host
 - else
   %h2.h5 No hosts Available
+  %a.btn.btn-primary{ :href => "/host_tracker/#{@report.id}/hosts/new" }
+    Add Host
 
 :javascript
   function confirmUploaded(evt) {

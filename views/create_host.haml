@@ -4,7 +4,7 @@
 .d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pt-3.pb-2.mb-3.border-bottom
   %h1.h2 New Host
 
-%form{ :method => "post", :enctype => "application/x-www-form-urlencoded" }
+%form{ :method => "post", :action => "/host_tracker/#{@report.id}/hosts/new", :enctype => "application/x-www-form-urlencoded" }
   .form-group.row
     %label.col-lg-2.col-form-label{ :for => "ip" } IP
     .col-lg-4
@@ -124,7 +124,7 @@
                 [[[ code, code goes here ]]]
 
 
-  - id_r = @report ? "/report/#{@report.id}/hosts" : "/master/hosts"
+  - id_r = @report ? "/host_tracker/#{@report.id}/hosts" : "/"
 
   %br
   %input.btn.btn-primary{ :type => "submit", :value => "Save" }
