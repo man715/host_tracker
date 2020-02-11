@@ -19,7 +19,7 @@ get '/host_tracker/hosts' do
   # Hey go get those hosts please
   @hosts = get_hosts(@report)
 
-  haml :"../plugins/host_tracker/views/hosts_list"
+  haml :"../plugins/host_tracker/views/list_hosts"
 end
   #Hosts List Menu 2
 get '/host_tracker/:id/hosts' do
@@ -35,7 +35,7 @@ get '/host_tracker/:id/hosts' do
   # Hey go get those hosts please
   @hosts = get_hosts(@report)
 
-  haml :"../plugins/host_tracker/views/hosts_list"
+  haml :"../plugins/host_tracker/views/list_hosts"
 end
 
 # Create a new hosts in the report
@@ -69,15 +69,73 @@ post '/host_tracker/:id/hosts/new' do
   redirect to("/host_tracker/#{id}/hosts")
 end
 
-# Delete a template finding
+# Delete a template host
 get '/host_tracker/:id/hosts/delete/:host_id' do
   id = params[:id]
   @report = get_report(id)
   params[:host_id].split(',').each do |current_id|
     host = ManagedHosts.first(id: current_id)
-    return "No Such Finding : #{current_id}" if host.nil?
+    return "No Such host : #{current_id}" if host.nil?
     # delete the entries
     host.destroy
   end
+  redirect to("/host_tracker/#{id}/hosts")
+end
+
+
+
+# Edit the host in a report
+get '/host_tracker/:id/hosts/edit/:host_id' do
+  id = params[:id]
+
+  # Query for the first report matching the report_name
+  @report = get_report(id)
+  return 'No Such Report' if @report.nil?
+
+  host_id = params[:host_id]
+
+  # Query for all hosts
+  @host = ManagedHosts.first(report_id: id, id: host_id)
+
+  return "No Such Host #{@host.ip}" if @host.nil?
+
+  haml :"../plugins/host_tracker/views/edit_host"
+end
+
+# Edit a host in the report
+post '/host_tracker/:id/hosts/edit/:host_id' do
+  # Check for kosher name in report name
+  id = params[:id]
+
+  # Query for the report
+  @report = get_report(id)
+
+  return 'No Such Report' if @report.nil?
+
+  host_id = params[:host_id]
+
+  # Query for all hosts
+  @host = get_host(host_id, id)
+
+  return 'No Such host' if @host.nil?
+
+  # not sure what is going on here
+  error = mm_verify(request.POST)
+  return error if error.size > 1
+  data = url_escape_hash(request.POST)
+
+  data['ip'] = data['ip'] # what is this all about?
+
+  # Update the host
+  unless @host.update(data)
+    error = ""
+    @host.errors.each do |f|
+      error = error + f.to_s() + "<br>"
+    end
+    return "<p>The following error(s) were found while trying to update : </p>#{error}"
+  end
+
+  @host.save
+
   redirect to("/host_tracker/#{id}/hosts")
 end

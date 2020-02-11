@@ -15,9 +15,9 @@ class ManagedHosts
   property :os, String
   property :port, String
   property :findings, String, length: 400
-  property :admin_accounts, String
-  property :other_accounts, String
-  property :discovered, String
+  property :admin_accounts, String, length: 400
+  property :other_accounts, String, length: 400
+  property :discovered, String, length: 400
   property :other_notes, String, length: 400
 end
 

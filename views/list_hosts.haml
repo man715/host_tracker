@@ -21,6 +21,8 @@
             OS
           %th{ :style => "text-align:center; width: 7%" }
             Port
+          %th{ :style => "text-align:center; width: 7%" }
+            Discovered
           %th{ :style => "text-align:center; width: 10%" }
             Actions
       %tbody
@@ -67,11 +69,11 @@
                                 %td.searchable{ :style => "text-align:center; width: 20%", :"data-index" => "#{host.ip.downcase}" }
                                   #{host.port}
                                 %td.searchable{ :style => "text-align:center; width: 20%", :"data-index" => "#{host.ip.downcase}" }
-                                  %a.btn.btn-sm.btn-warning{ :href => "/host_tracker/hosts/#{host.id}/edit" }
+                                  #{host.discovered}
+                                %td.searchable{ :style => "text-align:center; width: 20%", :"data-index" => "#{host.ip.downcase}" }
+                                  %a.btn.btn-sm.btn-warning{ :href => "/host_tracker/#{report.id}/hosts/#{host.id}/edit" }
                                     %i.fas.fa-pencil-alt{ :ip => "Edit" }
-                                  %a.btn.btn-sm.btn-info{ :href => "/master/hosts/#{host.id}/preview" }
-                                    %i.far.fa-play-circle{ :ip => "Preview" }
-                                  %a.btn.btn-sm.btn-danger{ :href => "/master/hosts/delete/#{host.id}" }
+                                  %a.btn.btn-sm.btn-danger{ :href => "/host_tracker/#{@report.id}/hosts/delete/#{host.id}" }
                                     %i.far.fa-trash-alt{ :ip => "Delete" }
         - else
           %a#deletemultiple.btn.btn-danger{ :href => "/host_tracker/#{@report.id}/hosts/delete/" }
@@ -90,8 +92,10 @@
               #{host.os}
             %td{ :style => "text-align:center" }
               #{host.port}
+            %td{ :style => "text-align:center" }
+              #{host.discovered}
             %td{ :style => "text-align:center"}
-              %a.btn.btn-sm.btn-warning{ :href => "/host_tracker#{@report.id}/hosts/edit/#{host.id}" }
+              %a.btn.btn-sm.btn-warning{ :href => "/host_tracker/#{@report.id}/hosts/edit/#{host.id}" }
                 %i.fas.fa-pencil-alt{ :ip => "Edit" }
               %a.btn.btn-sm.btn-danger{ :href => "/host_tracker/#{@report.id}/hosts/delete/#{host.id}" }
                 %i.far.fa-trash-alt{ :ip => "Delete" }

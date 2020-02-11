@@ -1,0 +1,151 @@
+%link{ :href => "/css/bootstrap-suggest.css", :rel => "stylesheet" }/
+%script{ :src => "/js/bootstrap-suggest.min.js" }
+
+.d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pt-3.pb-2.mb-3.border-bottom
+  %h1.h2 Edit Host #{@host.ip}
+
+%form{ :method => "post", :action => "/host_tracker/#{@report.id}/hosts/edit/#{@host.id}", :enctype => "application/x-www-form-urlencoded" }
+  .form-group.row
+    %label.col-lg-2.col-form-label{ :for => "ip" } IP
+    .col-lg-4
+      %input#ip.form-control{ :type => "text", :name => "ip", :value => "#{@host.ip}" }
+  - if @master
+    - if @languages and @languages.size > 1
+      .form-group.row
+        %label.col-lg-2.col-form-label{ :for => "language" } Language Setting
+        .col-lg-4
+          %select#language.custom-select{ :name => "language" }
+            - if @languages
+              - @languages.each do |type|
+                %option #{type}
+  - if !@master
+    .form-group.row
+      %label.col-lg-2.col-form-label{ :for => "hostname" } Hostname
+      .col-lg-4
+        %input#hostname.form-control{ :type => "text", :name => "hostname", :value => "#{@host.hostname}" }
+  .form-group.row
+    %label.col-lg-2.col-form-label{ :for => "os" } Operating System
+    .col-lg-4
+      %input#os.form-control{ :type => "text", :name => "os", :value => "#{@host.os}" }
+  .form-group.row
+    %label.col-lg-2.col-form-label{ :for => "port" } Port(s)
+    .col-lg-4
+      %input#port.form-control{ :type => "text", :name => "port", :value => "#{@host.port}" }
+  .form-group.row
+    %label.col-lg-2.col-form-label{ :for => "admin_accounts" } Admin Accounts
+    .col-lg-4
+      %textarea#admin_accounts.form-control.input-xxlarge.allowMarkupShortcut{ :type => "text", :name => "admin_accounts", :value => "#{@host.admin_accounts}" }
+        - if @host
+          - if @host.admin_accounts
+            #{meta_markup(@host.admin_accounts)}
+  .form-group.row
+    %label.col-lg-2.col-form-label{ :for => "other_accounts" } Other Accounts
+    .col-lg-4
+      %textarea#other_accounts.form-control.input-xxlarge.allowMarkupShortcut{ :type => "text", :name => "other_accounts" }
+        - if @host
+          - if @host.other_accounts
+            #{meta_markup(@host.other_accounts)}
+  .form-group.row
+    %label.col-lg-2.col-form-label{ :for => "discovered" } Discovered
+    .col-lg-4
+      %textarea#discovered.form-control.input-xxlarge.allowMarkupShortcut.form-control{ :type => "text", :name => "discovered" }
+        - if @host
+          - if @host.discovered
+            #{meta_markup(@host.discovered)}
+  .form-group.row
+    %label.col-lg-2.col-form-label{ "data-toggle" => "collapse", "data-target" => "#info_2" }
+      Notes Data
+      %i.fas.fa-chevron-down
+    #info_2.info.collapse.out.col-4
+      %label{ :for => "other_notes" }
+      %textarea#other_notes.input-xxlarge.allowMarkupShortcut.form-control{ :rows => "10", :name => "other_notes" }
+        - if @host
+          - if @host.other_notes
+            #{meta_markup(@host.other_notes)}
+  .form-group.row
+    %label.col-lg-2.col-form-label{ :for => "overview" }
+      %a.btn.btn-info{ :href=> "#modaloverview", "data-toggle" => "modal" }
+        Overview
+    .modal.modal.hide.fade#modaloverview{ :tabindex=> "-1", :role=> "dialog" }
+      .modal-dialog.modal-lg{ :role => "document" }
+        .modal-content
+          .modal-header
+            %h3#modal-label
+              Meta Markup
+            %button.close{ :type=> "button", "data-dismiss" => "modal", "aria-label" => "Close" }
+              &times;
+          .modal-body
+            %p
+              There are markup sets you can use in any field. This text is converted inside of Microsoft Word.
+              %p.text-error
+                YOU MUST CLOSE ALL TAGS. OTHERWISE YOU CAN DESTROY ALL TEXT FORMATTING. SEE EXAMPLES BELOW.
+              %b
+                Review the host "TEST - Markup Tester" for a clear example. As always, press preview to see the host in Word.
+            %h2
+              {{ URL }}
+            %p
+              If you place {{ URL }} in any field the text will be hyperlinked, otherwise hyperlinking is ignored.
+              %br
+            %h2
+              &lt;&lt;full_company_name&gt;&gt;
+            %p
+              If you place &lt;&lt;full_company_name&gt;&gt; in a host the customer name will be substituted in the host. This is particularly helpful in the Templated hosts.
+              %br
+              %br
+              %code
+                Overall &lt;&lt;full_company_name&gt;&gt; was found to have a strong...
+              %br
+              %br
+              Will generate the following inside of a report:
+              %br
+              %br
+              %code
+                Overall AcmeCorporation was found to have a strong...
+            %h2
+              Bullets
+            %p
+              Shortcut : CTRL + ALT + w
+              %br
+              Place the bulleted text inbetween a *- and a -* like so:
+              %br
+              %br
+              %code
+                *- Bulleted text goes here -*
+            %h2
+              Paragraph Heading Text
+            %p
+              Shortcut : CTRL + ALT + q
+              %br
+              Place the heading inbetween a [== and a ==] like so:
+              %br
+              %br
+              %code
+                [== Heading text goes here ==]
+            %h2
+              Italics
+            %p
+              Shortcut : CTRL + ALT + x
+              %br
+              Italicize the paragraph containing [~~ and a ~~]:
+              %br
+              %br
+              %code
+                [~~ Italics ~~]
+            %h2
+              Code
+            %p
+              Shortcut : CTRL + ALT + c
+              %br
+              Place code inbetween a [[[ and a ]]] like below. CODE CANNOT STRETCH MULTIPLE LINES.
+              %br
+              %br
+              %code
+                [[[ code, code goes here ]]]
+
+
+  - id_r = @report ? "/host_tracker/#{@report.id}/hosts" : "/"
+
+  %br
+  %input.btn.btn-primary{ :type => "submit", :value => "Save" }
+  %a.btn.btn-secondary{ :href => "#{id_r}" }
+    Cancel
