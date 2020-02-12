@@ -1,9 +1,10 @@
-.d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pt-3.pb-2.mb-3.border-bottom
-  %h1.h2 Current Hosts
-- if @exist
-  %h1 #{@attempted_host} 
-- else
-  %h1 It does not
+%h1.h2 Current Hosts
+- if @exist == true
+  %div{:class => "alert alert-warning alert-dismissible fade show", :role => "alert", :style => "width: 30%"}
+    %button{:type => "button", :class => "close", :"data-dismiss" => "alert", :"aria-label" => "Close"}
+      %span{:"aria-hidden" => "true"}
+        &times;
+    It looks like #{@attempted_host} already exists!
 
 - if @newhost
   %h2.h4 host(s) Added! You rock.
