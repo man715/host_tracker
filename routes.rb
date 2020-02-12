@@ -27,7 +27,9 @@ get '/host_tracker/:id/hosts' do
   redirect to("/") unless valid_session?
   id = params[:id]
   @report = get_report(id)
-
+  @exist = params[:exist]
+  @attempted_host = params[:attempted_host] 
+  return @attempted_host
   @plugin_side_menu = get_plugin_list('user') # TODO: Look into how this works
 
   #return 'No Such Report' if @report.nil? # # TODO: Handle this a little more gracefully. Maybe an alert?
@@ -63,10 +65,18 @@ post '/host_tracker/:id/hosts/new' do
     data['report_id'] = id
 
   @host = ManagedHosts.new(data)
-  @host.save
-
+  @allhosts = get_hosts(@report)
+  @exist = false
+  @allhosts.each do |h|
+    if h.ip == @host.ip
+     @exist = true
+    end
+  end
+  if @exist == false 
+    @host.save
+  end 
   # for a parameter_pollution on report_id
-  redirect to("/host_tracker/#{id}/hosts")
+  redirect to("/host_tracker/#{id}/hosts?exist=true?attempted_host=#{@host.ip}")
 end
 
 # Delete a template host

@@ -1,5 +1,9 @@
 .d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pt-3.pb-2.mb-3.border-bottom
   %h1.h2 Current Hosts
+- if @exist
+  %h1 #{@attempted_host} 
+- else
+  %h1 It does not
 
 - if @newhost
   %h2.h4 host(s) Added! You rock.
