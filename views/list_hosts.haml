@@ -1,11 +1,11 @@
 %h1.h2 Current Hosts
-- if @exist == true
-  %div{:class => "alert alert-warning alert-dismissible fade show", :role => "alert", :style => "width: 30%"}
-    %button{:type => "button", :class => "close", :"data-dismiss" => "alert", :"aria-label" => "Close"}
-      %span{:"aria-hidden" => "true"}
-        &times;
-    It looks like #{@attempted_host} already exists!
-
+- if @error == "true"
+  - @error_msgs.each do |m|
+    %div{:class => "alert alert-warning alert-dismissible fade show", :role => "alert", :style => "width: 30%"}
+      %button{:type => "button", :class => "close", :"data-dismiss" => "alert", :"aria-label" => "Close"}
+        %span{:"aria-hidden" => "true"}
+          &times;
+      #{m}
 - if @newhost
   %h2.h4 host(s) Added! You rock.
 - if @total_added

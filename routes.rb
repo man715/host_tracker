@@ -26,12 +26,18 @@ get '/host_tracker/:id/hosts' do
   # Check for valid session
   redirect to("/") unless valid_session?
   id = params[:id]
+
+# Get the report
   @report = get_report(id)
-  @exist = params[:exist]
-  @attempted_host = params[:attempted_host] 
+
+# Error Handeling
+  @error_msgs = []
+  @error = params[:error]
+  @error_msgs << params[:error_msg] unless params[:error_msg].empty?
+
   @plugin_side_menu = get_plugin_list('user') # TODO: Look into how this works
 
-  #return 'No Such Report' if @report.nil? # # TODO: Handle this a little more gracefully. Maybe an alert?
+  return 'No Such Report' if @report.nil? # # TODO: Handle this a little more gracefully. Maybe an alert?
 
   # Hey go get those hosts please
   @hosts = get_hosts(@report)
@@ -65,17 +71,22 @@ post '/host_tracker/:id/hosts/new' do
 
   @host = ManagedHosts.new(data)
   @allhosts = get_hosts(@report)
-  @exist = false
+  @error = false
+  @error_msg = ""
+
+# Check to see if the host already exists
   @allhosts.each do |h|
     if h.ip == @host.ip
-     @exist = true
+     @error = true
+     @error_msg = "The host #{@host.ip} already exists!"
     end
   end
-  if @exist == false 
+# Save if the ip did not match any of the hosts
+  if @error == false 
     @host.save
   end 
 
-  redirect to("/host_tracker/#{id}/hosts?exist=#{@exist}&attempted_host=#{@host.ip}")
+  redirect to("/host_tracker/#{id}/hosts?error=#{@error}&error_msg=#{@error_msg}")
 end
 
 # Delete a template host
