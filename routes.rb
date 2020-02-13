@@ -45,6 +45,30 @@ get '/host_tracker/:id/hosts' do
   haml :"../plugins/host_tracker/views/list_hosts"
 end
 
+get '/host_tracker/:id/host/:host_id' do
+  # Check for valid session
+  redirect to("/") unless valid_session?
+  id = params[:id]
+  host_id = params[:host_id]
+
+  # Get the report
+  @report = get_report(id)
+  # If it is not a valid report throw an error
+  return 'No Such Report' if @report.nil? # # TODO: Handle this a little more gracefully. Maybe an alert?
+
+  # Error Handeling
+  @error_msgs = []
+  @error = params[:error]
+  @error_msgs << params[:error_msg] unless params[:error_msg].nil? 
+
+  @plugin_side_menu = get_plugin_list('user') # TODO: Look into how this works
+
+  # Hey go get those hosts please
+  @host = get_host(host_id, id)
+
+  haml :"../plugins/host_tracker/views/individual_host"
+end
+
 # Create a new hosts in the report
 get '/host_tracker/:id/hosts/new' do
   # Query for the first report matching the report_name
@@ -82,9 +106,9 @@ post '/host_tracker/:id/hosts/new' do
     end
   end
 # Save if the ip did not match any of the hosts
-  if @error == false 
+  if @error == false
     @host.save
-  end 
+  end
 
   redirect to("/host_tracker/#{id}/hosts?error=#{@error}&error_msg=#{@error_msg}")
 end

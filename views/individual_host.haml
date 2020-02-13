@@ -1,0 +1,51 @@
+%h1.h2 #{@host.ip}
+-# Catch and print errors
+- if @error == "true"
+  - @error_msgs.each do |m|
+    %div{:class => "alert alert-warning alert-dismissible fade show", :role => "alert", :style => "width: 30%"}
+      %button{:type => "button", :class => "close", :"data-dismiss" => "alert", :"aria-label" => "Close"}
+        %span{:"aria-hidden" => "true"}
+          &times;
+      #{m}
+-# this is hacky as shit. I am not sure why this does this but whatever.
+.table.table-sm
+  %table{ :style => "table-layout: fixed; width: 90%;" }
+    %th
+%h3 Hostname:
+%h2 #{@host.hostname}
+%br
+%br
+%h4 Services:
+.table.table-sm
+  %table{ :style => "table-layout: fixed; width: 90%;" }
+
+    %th{ :style => "text-align:center" }
+      Protocol
+    %th{ :style => "text-align:center" }
+      Port
+    %th{ :style => "text-align:center" }
+      Name
+    %th{ :style => "text-align:center" }
+      Version
+    %th{ :style => "text-align:center" }
+      Script ID
+    %th{ :style => "text-align:center" }
+      Script Output
+
+    %tr
+      %td{ :style => "text-align:center" }
+        SMB
+      %td{ :style => "text-align:center" }
+        445
+      %td{ :style => "text-align:center" }
+        MSFT
+      %td{ :style => "text-align:center" }
+        2.1
+      %td{ :style => "text-align:center" }
+        MEH
+      %td{ :style => "text-align:center"}
+        blah
+%div
+  %h4 Notes:
+  %div.notes
+    this is where notes will go

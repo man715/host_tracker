@@ -76,7 +76,7 @@
                                 %td.searchable{ :style => "text-align:center; width: 20%", :"data-index" => "#{host.ip.downcase}" }
                                   #{host.discovered}
                                 %td.searchable{ :style => "text-align:center; width: 20%", :"data-index" => "#{host.ip.downcase}" }
-                                  %a.btn.btn-sm.btn-warning{ :href => "/host_tracker/#{report.id}/hosts/#{host.id}/edit" }
+                                  %a.btn.btn-sm.btn-warning{ :href => "/host_tracker/#{@report.id}/hosts/#{host.id}/edit" }
                                     %i.fas.fa-pencil-alt{ :ip => "Edit" }
                                   %a.btn.btn-sm.btn-danger{ :href => "/host_tracker/#{@report.id}/hosts/delete/#{host.id}" }
                                     %i.far.fa-trash-alt{ :ip => "Delete" }
@@ -90,7 +90,8 @@
             %td
               %input.checkbox{ :type => "checkbox", :name => "#{host.id}" }
             %td{ :style => "width:60%; max-width: 0px" }
-              #{host.ip}
+              %a{ :href => "/host_tracker/#{@report.id}/host/#{host.id}"}
+                #{host.ip}
             %td{ :style => "text-align:center" }
               #{host.hostname}
             %td{ :style => "text-align:center" }
